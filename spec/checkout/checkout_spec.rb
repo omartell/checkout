@@ -10,7 +10,12 @@ describe Checkout::Checkout do
   # D     15
 
   let(:rules) do
-    []
+    {
+      "A" => { unit_price: 50, discount_price: 130, discount_quantity: 3 },
+      "B" => { unit_price: 30, discount_price: 45,  discount_quantity: 2 },
+      "C" => { unit_price: 20 },
+      "D" => { unit_price: 15 }
+    }
   end
 
   def price(goods)
@@ -25,7 +30,11 @@ describe Checkout::Checkout do
 
   context "No offers exist" do
     it "returns the total for a basket with just one item" do
-      price("C").should eq 15.0
+      price("C").should eq 20.0
+    end
+
+    it "returns the total for a basket with two items" do
+      price("CD").should eq 35.0
     end
   end
 

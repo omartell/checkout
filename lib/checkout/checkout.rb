@@ -2,15 +2,17 @@ module Checkout
   class Checkout
     def initialize(rules)
       @rules = rules
-      @total =  0
+      @products_scanned = []
     end
 
     def total
-      @total
+      @products_scanned.inject(0.0) do |memo, item|
+        memo + @rules.fetch(item).fetch(:unit_price)
+      end
     end
 
     def scan(item)
-      @total = 15
+      @products_scanned << item
     end
   end
 end
