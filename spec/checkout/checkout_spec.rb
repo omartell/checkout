@@ -38,6 +38,13 @@ describe Checkout::Checkout do
     end
   end
 
+  context "Offers exist" do
+    it "doesn't apply discount when the items in the basket don't match the discount quantity" do
+      price("A").should eq 50.0
+      price("AA").should eq 100.0
+    end
+  end
+
   it "calculates the right price" do
     pending("Making this pass would be a big step")
     price("").should eq 0.0
