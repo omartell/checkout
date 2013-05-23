@@ -55,6 +55,10 @@ describe Checkout::Checkout do
     it "applies discounts or unit prices" do
       price("AAABBCD").should eq 210.0
     end
+
+    it "applies discounts when similar items are not in order" do
+      price("CABABAD").should eq 210.0
+    end
   end
 
   it "calculates the right price" do
