@@ -61,15 +61,4 @@ describe Checkout::Checkout do
     end
   end
 
-  it "calculates the right price" do
-    pending("Making this pass would be a big step")
-    price("").should eq 0.0
-    price("A").should eq  50.0
-    price("AB").should eq 80.0
-    price("CDBA").should eq 115.0
-    price("AA").should eq 100.0
-    price("AAA").should eq 130.0
-    price("AAABB").should eq 175.0
-  end
-
 end
