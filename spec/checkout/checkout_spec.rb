@@ -19,8 +19,14 @@ describe Checkout::Checkout do
     co.total
   end
 
-  it "returns zero when there are no products" do
+  it "returns zero when there are no products in the basket" do
     price("").should eq 0.0
+  end
+
+  context "No offers exist" do
+    it "returns the total for a basket with just one item" do
+      price("C").should eq  50.0
+    end
   end
 
   it "calculates the right price" do
