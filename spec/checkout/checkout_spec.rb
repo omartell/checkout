@@ -51,6 +51,10 @@ describe Checkout::Checkout do
     it "applies different discounts" do
       price("AAABB").should eq 175.0
     end
+
+    it "applies discounts or unit prices" do
+      price("AAABBCD").should eq 210.0
+    end
   end
 
   it "calculates the right price" do
