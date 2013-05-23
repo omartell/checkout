@@ -43,6 +43,10 @@ describe Checkout::Checkout do
       price("A").should eq 50.0
       price("AA").should eq 100.0
     end
+
+    it "applies the discount when the quantity of items in the basket matches the discount quantity" do
+      price("AAA").should eq 130.0
+    end
   end
 
   it "calculates the right price" do
