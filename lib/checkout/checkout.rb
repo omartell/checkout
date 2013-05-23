@@ -10,7 +10,7 @@ module Checkout
     end
 
     def scan(item)
-      @total = 50
+      @total = 15
     end
   end
 end

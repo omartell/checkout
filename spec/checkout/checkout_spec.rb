@@ -25,7 +25,7 @@ describe Checkout::Checkout do
 
   context "No offers exist" do
     it "returns the total for a basket with just one item" do
-      price("C").should eq  50.0
+      price("C").should eq 15.0
     end
   end
 
