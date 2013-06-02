@@ -9,10 +9,12 @@ module Checkout
       product_rules = @rules.fetch(product) do
         raise NoRulesForProductError.new(product)
       end
-      discount_quantity = product_rules[:discount_quantity]
 
-      if discount_quantity && quantity >= discount_quantity
-        product_rules.fetch(:discount_price) + calculate_price(product, quantity - discount_quantity)
+      offers = product_rules[:offers].first if product_rules[:offers]
+      discount_quantity = offers.fetch(:discount_quantity) if offers
+
+      if offers && discount_quantity && quantity >= discount_quantity
+        offers.fetch(:discount_price) + calculate_price(product, quantity - discount_quantity)
       elsif product_rules[:deal_name] == "2x1"
         product_rules.fetch(:unit_price)
       else
