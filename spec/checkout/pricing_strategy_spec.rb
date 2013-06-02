@@ -19,13 +19,26 @@ module Checkout
       expect{ subject.calculate_price("blah", 1) }.to raise_error NoRulesForProductError
     end
 
-    it "calculates a discount price for a product if the basket quantity matches the rule discount quantity" do
-      pricing_rule = {
-        "B" => { unit_price: 15, discount_price: 25, discount_quantity: 2 }
-      }
-      subject = PricingStrategy.new(pricing_rule)
+    context "Discount Quantity on the Pricing Rule" do
 
-      subject.calculate_price("B", 2).should eq 25
+      it "calculates a discount price for a product if the basket quantity matches the rule discount quantity" do
+        pricing_rule = {
+          "B" => { unit_price: 15, discount_price: 25, discount_quantity: 2 }
+        }
+        subject = PricingStrategy.new(pricing_rule)
+
+        subject.calculate_price("B", 2).should eq 25
+      end
+
+      it "applies the discount for the items that match the discount quantity and the basic price for all the other items" do
+        pricing_rule = {
+          "B" => { unit_price: 15, discount_price: 25, discount_quantity: 3 }
+        }
+        subject = PricingStrategy.new(pricing_rule)
+
+        subject.calculate_price("B", 5).should eq 55
+      end
+
     end
 
     it "knows how to calculate the price based on the deal name" do

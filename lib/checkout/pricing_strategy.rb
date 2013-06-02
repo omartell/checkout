@@ -11,8 +11,8 @@ module Checkout
       end
       discount_quantity = product_rules[:discount_quantity]
 
-      if discount_quantity && discount_quantity == quantity
-        product_rules.fetch(:discount_price)
+      if discount_quantity && quantity >= discount_quantity
+        product_rules.fetch(:discount_price) + calculate_price(product, quantity - discount_quantity)
       elsif product_rules[:deal_name] == "2x1"
         product_rules.fetch(:unit_price)
       else

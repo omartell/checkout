@@ -37,7 +37,7 @@ describe Checkout::Checkout do
     end
   end
 
-  context "Offers exist" do
+  context "Offers based on quantity" do
     it "doesn't apply discount when the items in the basket don't match the discount quantity" do
       price("A").should eq 50.0
       price("AA").should eq 100.0
@@ -58,13 +58,18 @@ describe Checkout::Checkout do
     it "applies discounts when similar items are not in order" do
       price("CABABAD").should eq 210.0
     end
+
+    context "Basket quantity is higher than discount quantity" do
+      it "applies the discount for the discount quantity and the basic price for the rest of the items" do
+        price("AAAAA").should eq 230.0
+      end
+    end
   end
 
-  context "Predefined offers" do
+  context "Deals" do
     it "caculates the price based on the deal name" do
       price("EE").should eq 10
     end
   end
-
 
 end
