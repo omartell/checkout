@@ -9,17 +9,8 @@ describe Checkout::Checkout do
   # C     20
   # D     15
 
-  let(:rules) do
-    {
-      "A" => { unit_price: 50, discount_price: 130, discount_quantity: 3 },
-      "B" => { unit_price: 30, discount_price: 45,  discount_quantity: 2 },
-      "C" => { unit_price: 20 },
-      "D" => { unit_price: 15 }
-    }
-  end
-
   def price(goods)
-    co = Checkout::Checkout.new(rules)
+    co = Checkout::Checkout.new
     goods.split(//).each { |item| co.scan(item) }
     co.total
   end
