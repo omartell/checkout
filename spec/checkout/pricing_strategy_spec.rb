@@ -43,7 +43,7 @@ module Checkout
         }
         subject = PricingStrategy.new(pricing_rule)
 
-        subject.calculate_price("B", 5).should eq 120
+        subject.calculate_price("B", 5).should eq 125
       end
 
       it "applies the discount for the items that match the discount quantity and the basic price for all the other items" do
