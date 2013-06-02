@@ -9,6 +9,14 @@ describe Checkout::Checkout do
   # C     20
   # D     15
 
+  RULES = {
+    "A" => { unit_price: 50, discount_price: 130, discount_quantity: 3 },
+    "B" => { unit_price: 30, discount_price: 45,  discount_quantity: 2 },
+    "C" => { unit_price: 20 },
+    "D" => { unit_price: 15 },
+    "E" => { unit_price: 10, deal_name: "2x1" }
+  }
+
   def price(goods)
     co = Checkout::Checkout.new
     goods.split(//).each { |item| co.scan(item) }
@@ -51,5 +59,12 @@ describe Checkout::Checkout do
       price("CABABAD").should eq 210.0
     end
   end
+
+  context "Predefined offers" do
+    it "caculates the price based on the deal name" do
+      price("EE").should eq 10
+    end
+  end
+
 
 end
