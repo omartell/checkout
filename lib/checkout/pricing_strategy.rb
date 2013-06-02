@@ -10,11 +10,12 @@ module Checkout
         raise NoRulesForProductError.new(product)
       end
 
-      offers = product_rules[:offers].first if product_rules[:offers]
-      discount_quantity = offers.fetch(:discount_quantity) if offers
+      best_offer = product_rules.fetch(:offers){ [] }.select do |o|
+        o[:discount_quantity] <= quantity
+      end.max{|o| o[:discount_quantity] <=> o[:discount_quantity] }
 
-      if offers && discount_quantity && quantity >= discount_quantity
-        offers.fetch(:discount_price) + calculate_price(product, quantity - discount_quantity)
+      if best_offer
+        best_offer.fetch(:discount_price) + calculate_price(product, quantity - best_offer[:discount_quantity])
       elsif product_rules[:deal_name] == "2x1"
         product_rules.fetch(:unit_price)
       else
