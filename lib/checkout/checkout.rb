@@ -7,7 +7,8 @@ module Checkout
 
     def total
       @scanned.group_by{|item| item }.map(&:last).inject(0.0) do |total, items_basket|
-        total + @calculator.calculate_price(items_basket.first, items_basket.size)
+        product_id, quantity = items_basket.first, items_basket.size
+        total + @calculator.calculate_price(product_id, quantity)
       end
     end
 
