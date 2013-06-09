@@ -12,12 +12,12 @@ describe Checkout::Checkout do
   # F     50
 
   RULES = {
-    "A" => { prices: [ { price: 50, quantity: 1}, { price: 130, quantity: 3} ]  },
-    "B" => { prices: [ { price: 30, quantity: 1}, { price: 45, quantity: 2} ] },
-    "C" => { prices: [ { price: 20, quantity: 1} ] },
-    "D" => { prices: [ { price: 15, quantity: 1} ] },
-    "E" => { prices: [ { price: 10, quantity: 1} ], other_discounts: [{"3E" => "1D"}] },
-    "F" => { prices: [ { price: 50, quantity: 1}, { price: 90, quantity: 2 }, { price: 130, quantity: 3 }] }
+    "A" => { unit_price: 50, offers: [ { price: 130, quantity: 3} ]  },
+    "B" => { unit_price: 30, offers: [ { price: 45, quantity: 2} ] },
+    "C" => { unit_price: 20, offers: [ ] },
+    "D" => { unit_price: 15, offers: [ ] },
+    "E" => { unit_price: 10, offers: [ ], other_discounts: [{"3E" => "1D"}] },
+    "F" => { unit_price: 50, offers: [ { price: 90, quantity: 2 }, { price: 130, quantity: 3 }] }
   }
 
   def price(goods)

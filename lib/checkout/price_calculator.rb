@@ -1,6 +1,6 @@
 module Checkout
 
-  class PricingRuleResolver
+  class PriceFetcher
     ProductOffer = Struct.new(:price, :quantity)
 
     def self.for(product_id, pricing_rules)
@@ -14,10 +14,14 @@ module Checkout
       @pricing_rule = pricing_rule
     end
 
-    def prices
-      pricing_rule.fetch(:prices).map do |p|
+    def offers
+      pricing_rule.fetch(:offers).map do |p|
         ProductOffer.new(p.fetch(:price), p.fetch(:quantity))
       end
+    end
+
+    def unit_price
+      pricing_rule.fetch(:unit_price)
     end
 
     private
@@ -25,29 +29,28 @@ module Checkout
 
   end
 
-  class PricingStrategy
+  class PriceCalculator
 
     def initialize(rules = RULES)
       @rules = rules
     end
 
-    def calculate_price(product_id, quantity)
-      product_rule = PricingRuleResolver.for(product_id, rules)
-      best_offer   = best_offer_from(product_rule, quantity)
+    def calculate(product_id, quantity)
+      product_rule = PriceFetcher.for(product_id, rules)
+      offer = offer_matching_basket(product_rule, quantity)
 
-      if best_offer
-        remaining_quantity = quantity - best_offer.quantity
-        best_offer.price + calculate_price(product_id, remaining_quantity)
+      if offer
+        offer.price + calculate(product_id, quantity - offer.quantity)
       else
-        0
+        product_rule.unit_price * quantity
       end
     end
 
     private
     attr_reader :rules
 
-    def best_offer_from(product_rule, basket_quantity)
-      product_rule.prices.select do |o|
+    def offer_matching_basket(product_rule, basket_quantity)
+      product_rule.offers.select do |o|
         o.quantity <= basket_quantity
       end.max do |a, b|
         a.quantity <=> b.quantity
