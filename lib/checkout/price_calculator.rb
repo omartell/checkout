@@ -1,5 +1,4 @@
 module Checkout
-
   class PriceCalculator
 
     def initialize(rules = RULES)

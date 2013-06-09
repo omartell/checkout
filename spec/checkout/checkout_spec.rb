@@ -15,8 +15,8 @@ describe Checkout::Checkout do
     "A" => { unit_price: 50, offers: [ { discount: (1.0 - 130.0/150.0), quantity: 3} ]  },
     "B" => { unit_price: 30, offers: [ { discount: 0.25, quantity: 2} ] },
     "C" => { unit_price: 20, offers: [ ] },
-    "D" => { unit_price: 15, offers: [ ] },
-    "E" => { unit_price: 10, offers: [ ], other_discounts: [{"3E" => "1D"}] },
+    "D" => { unit_price: 15, offers: [ { qualifying_combo: "EEE", combo_discount: "D" } ] },
+    "E" => { unit_price: 10, offers: [] },
     "F" => { unit_price: 50, offers: [ { discount: 0.1, quantity: 2 }, { discount: (1.0 - 130.0/150.0), quantity: 3 }] }
   }
 

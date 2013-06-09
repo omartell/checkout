@@ -10,8 +10,9 @@ module Checkout
       offer = offer_matching_basket(product_rule, quantity)
 
       if offer
-        @calculator.calculate(product_id, offer.quantity) * offer.discount +
-        discount(product_id, quantity - offer.quantity)
+        this_discount = @calculator.calculate(product_id, offer.quantity) * offer.discount
+        remaining_quantity = quantity - offer.quantity
+        this_discount + discount(product_id, remaining_quantity)
       else
         0
       end
