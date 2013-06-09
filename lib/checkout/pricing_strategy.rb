@@ -15,7 +15,7 @@ module Checkout
     end
 
     def prices
-      pricing_rule.map do |p|
+      pricing_rule.fetch(:prices).map do |p|
         ProductOffer.new(p.fetch(:price), p.fetch(:quantity))
       end
     end

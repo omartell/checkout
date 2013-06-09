@@ -8,14 +8,16 @@ describe Checkout::Checkout do
   # B     30       2 for 45
   # C     20
   # D     15
+  # E     10       Buy 3 E, get D free
+  # F     50
 
   RULES = {
-    "A" => [{ price: 50, quantity: 1}, { price: 130, quantity: 3}],
-    "B" => [{ price: 30, quantity: 1}, { price: 45, quantity: 2}],
-    "C" => [{ price: 20, quantity: 1}],
-    "D" => [{ price: 15, quantity: 1}],
-    "E" => [{ price: 10, quantity: 1}],
-    "F" => [{ price: 50, quantity: 1}, { price: 90, quantity: 2 }, { price: 130, quantity: 3 }]
+    "A" => { prices: [ { price: 50, quantity: 1}, { price: 130, quantity: 3} ]  },
+    "B" => { prices: [ { price: 30, quantity: 1}, { price: 45, quantity: 2} ] },
+    "C" => { prices: [ { price: 20, quantity: 1} ] },
+    "D" => { prices: [ { price: 15, quantity: 1} ] },
+    "E" => { prices: [ { price: 10, quantity: 1} ], other_discounts: [{"3E" => "1D"}] },
+    "F" => { prices: [ { price: 50, quantity: 1}, { price: 90, quantity: 2 }, { price: 130, quantity: 3 }] }
   }
 
   def price(goods)
@@ -70,6 +72,12 @@ describe Checkout::Checkout do
   context "A product can have different offers associated with it" do
     it "calculates the price of an item with more than one offer" do
       price("FFFFF").should eq 220.0
+    end
+  end
+
+  context "A quantity of products E qualifies for free product D" do
+    it "doesn't charge product B" do
+      price("EEED").should eq 30.0
     end
   end
 
