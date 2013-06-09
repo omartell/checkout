@@ -14,7 +14,7 @@ describe Checkout::Checkout do
     "B" => [{ price: 30, quantity: 1}, { price: 45, quantity: 2}],
     "C" => [{ price: 20, quantity: 1}],
     "D" => [{ price: 15, quantity: 1}],
-    "E" => [{ price: 10, deal_name: "2x1"}],
+    "E" => [{ price: 10, quantity: 1}],
     "F" => [{ price: 50, quantity: 1}, { price: 90, quantity: 2 }, { price: 130, quantity: 3 }]
   }
 
@@ -70,13 +70,6 @@ describe Checkout::Checkout do
   context "A product can have different offers associated with it" do
     it "calculates the price of an item with more than one offer" do
       price("FFFFF").should eq 220.0
-    end
-  end
-
-  context "Deals" do
-    it "caculates the price based on the deal name" do
-      pending
-      price("EE").should eq 10
     end
   end
 

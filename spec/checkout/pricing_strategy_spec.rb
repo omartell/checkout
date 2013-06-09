@@ -43,16 +43,5 @@ module Checkout
       end
 
     end
-
-    it "knows how to calculate the price based on the deal name" do
-      pending
-      pricing_rule = {
-        "C" => { price: 15, deal_name: "2x1" }
-      }
-
-      subject = PricingStrategy.new(pricing_rule)
-
-      subject.calculate_price("C", 2).should eq 15
-    end
   end
 end
