@@ -5,13 +5,13 @@ module Checkout
       @calculator = calculator.new(rules)
     end
 
-    def calculate(product_id, quantity)
+    def discount(product_id, quantity)
       product_rule = PriceFetcher.for(product_id, rules)
       offer = offer_matching_basket(product_rule, quantity)
 
       if offer
         @calculator.calculate(product_id, offer.quantity) * offer.discount +
-        calculate(product_id, quantity - offer.quantity)
+        discount(product_id, quantity - offer.quantity)
       else
         0
       end

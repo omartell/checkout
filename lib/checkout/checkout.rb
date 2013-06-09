@@ -7,7 +7,7 @@ module Checkout
     end
 
     def total
-      total_withouth_offers - offers
+      total_withouth_offers - discounts
     end
 
     def scan(item)
@@ -16,19 +16,23 @@ module Checkout
 
     private
 
-    def offers
-      @scanned.group_by{|item| item }.map(&:last).inject(0.0) do |total, items_basket|
+    def discounts
+      grouped_items.inject(0.0) do |total, items_basket|
         product_id, quantity = items_basket.first, items_basket.size
-        total + @offer_calculator.calculate(product_id, quantity)
+        total + @offer_calculator.discount(product_id, quantity)
       end
     end
 
     def total_withouth_offers
-      @scanned.group_by{|item| item }.map(&:last).inject(0.0) do |total, items_basket|
+      grouped_items.inject(0.0) do |total, items_basket|
         product_id, quantity = items_basket.first, items_basket.size
         charge = @normal_price_calculator.calculate(product_id, quantity)
         total + charge
       end
+    end
+
+    def grouped_items
+      @scanned.group_by{|item| item }.map(&:last)
     end
 
   end

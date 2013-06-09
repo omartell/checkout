@@ -10,7 +10,7 @@ module Checkout
         }
         subject = BestOfferCalculator.new(pricing_rule)
 
-        subject.calculate("B", 2).should eq 30*0.4
+        subject.discount("B", 2).should eq 30*0.4
       end
 
       it "chooses the best discounts based on the remaining quantity of items" do
@@ -19,7 +19,7 @@ module Checkout
         }
         subject = BestOfferCalculator.new(pricing_rule)
 
-        subject.calculate("B", 5).should eq 60*0.15+ 90*0.15
+        subject.discount("B", 5).should eq 60*0.15+ 90*0.15
       end
 
       it "applies the discount for the items that match the discount quantity and the basic price for all the other items" do
@@ -28,7 +28,7 @@ module Checkout
         }
         subject = BestOfferCalculator.new(pricing_rule)
 
-        subject.calculate("B", 5).should eq 45 * 0.45
+        subject.discount("B", 5).should eq 45 * 0.45
       end
 
     end
